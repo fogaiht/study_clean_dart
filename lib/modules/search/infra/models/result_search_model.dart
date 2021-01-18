@@ -1,34 +1,37 @@
-import 'dart:convert';
-
-import '../../domain/entities/result_search.dart';
+import 'package:flutter/foundation.dart';
+import 'package:study_clean_dart/modules/search/domain/entities/result_search.dart';
 
 class ResultSearchModel extends ResultSearch {
-  final String title;
-  final String content;
-  final String img;
+  final String login;
+  final int id;
+  final String avatarUrl;
 
-  ResultSearchModel({this.title, this.content, this.img});
+  ResultSearchModel({
+    @required this.login,
+    @required this.id,
+    @required this.avatarUrl,
+  });
 
+  ResultSearchModel copyWith({
+    String login,
+    int id,
+    String avatarUrl,
+  }) =>
+      ResultSearchModel(
+        login: login ?? this.login,
+        id: id ?? this.id,
+        avatarUrl: avatarUrl ?? this.avatarUrl,
+      );
 
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'content': content,
-      'img': img,
-    };
-  }
+  factory ResultSearchModel.fromJson(Map<String, dynamic> json) => ResultSearchModel(
+        login: json["login"] == null ? null : json["login"],
+        id: json["id"] == null ? null : json["id"],
+        avatarUrl: json["avatar_url"] == null ? null : json["avatar_url"],
+      );
 
-  factory ResultSearchModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-  
-    return ResultSearchModel(
-      title: map['title'],
-      content: map['content'],
-      img: map['img'],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ResultSearchModel.fromJson(String source) => ResultSearchModel.fromMap(json.decode(source));
+  Map<String, dynamic> toJson() => {
+        "login": login == null ? null : login,
+        "id": id == null ? null : id,
+        "avatar_url": avatarUrl == null ? null : avatarUrl,
+      };
 }
